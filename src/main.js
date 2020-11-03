@@ -1,8 +1,7 @@
-
 const HEIGHT = 700;
 const WIDTH = 700;
 
-const SIZE = 35;
+const SIDE_LEN = 70;
 
 let cols, rows;
 let raster;
@@ -43,10 +42,10 @@ function dda (x1, y1, x2, y2) {
 function setup () {
   createCanvas(HEIGHT, WIDTH);
 
-  cols = floor(WIDTH/SIZE);
-  rows =  floor(WIDTH/SIZE);
+  cols = floor(WIDTH/SIDE_LEN);
+  rows =  floor(WIDTH/SIDE_LEN);
 
-  raster = new Raster(cols, rows);
+  raster = new Raster(cols, rows, SIDE_LEN);
 }
 
 function draw() {
@@ -56,35 +55,45 @@ function draw() {
 }
 
 class Pixel {
-  constructor (i, j) {
+  constructor (i, j, sideLen) {
+    // Index no Raster
     this.i = i;
     this.j = j;
+
+    // Valor de x e y no canvas
+    this.x = i * sideLen;
+    this.y = j * sideLen;
+
     this.filled = false;
+    this.sideLen = sideLen;
   }
 
   show () {
-    const x = this.i * SIZE;
-    const y = this.j * SIZE;
-
     stroke(0);
 
     if (this.filled) fill(0);
     else noFill();
 
-    rect(x, y, SIZE, SIZE);
+    rect(this.x, this.y, this.sideLen, this.sideLen);
   }
 }
 
 class Raster {
-  constructor (rows, cols) {
-    this.matrix = new Array(cols);
+  constructor (rows, cols, sideLen) {
+    this.matrix = this.getMatrix(rows, cols, sideLen);
+  }
+
+  getMatrix (rows, cols, sideLen) {
+    const arr = new Array(cols);
 
     for (let i = 0; i < rows; i++) {
-      this.matrix[i] = new Array(cols);
+      arr[i] = new Array(cols);
       for (let j = 0; j < cols; j++) {
-        this.matrix[i][j] = new Pixel(i, j);
+        arr[i][j] = new Pixel(i, j, sideLen);
       }
     }
+
+    return arr;
   }
 
   show () {

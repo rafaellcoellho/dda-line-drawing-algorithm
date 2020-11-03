@@ -1,11 +1,14 @@
+/* Constantes */
 const HEIGHT = 700;
 const WIDTH = 700;
 
 const SIDE_LEN = 70;
 
+/* Variáveis Globais */
 let cols, rows;
 let raster;
 
+/* Algoritmo DDA */
 function generateFragment (x, y) {
   const xm = floor(x);
   const ym = floor(y);
@@ -39,6 +42,7 @@ function dda (x1, y1, x2, y2) {
   }
 }
 
+/* P5 */
 function setup () {
   createCanvas(HEIGHT, WIDTH);
 
@@ -54,6 +58,7 @@ function draw() {
   raster.show();
 }
 
+/* Objetos */
 class Pixel {
   constructor (i, j, sideLen) {
     // Index no Raster

@@ -89,8 +89,8 @@ class Pixel {
   checkClicked (px, py) {
     const xLimit = this.x + this.sideLen;
     const yLimit = this.y + this.sideLen;
-    const xAxis = (px >= this.x) && (px <= xLimit);
-    const yAxis = (py >= this.y) && (py <= yLimit);
+    const xAxis = (px > this.x) && (px < xLimit);
+    const yAxis = (py > this.y) && (py < yLimit);
 
     if (xAxis && yAxis) {
       this.onClick();

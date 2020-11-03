@@ -43,6 +43,10 @@ function dda (x1, y1, x2, y2) {
 }
 
 /* P5 */
+function mousePressed () {
+  raster.propagateClick(mouseX, mouseY);
+}
+
 function setup () {
   createCanvas(HEIGHT, WIDTH);
 
@@ -81,6 +85,21 @@ class Pixel {
 
     rect(this.x, this.y, this.sideLen, this.sideLen);
   }
+
+  checkClicked (px, py) {
+    const xLimit = this.x + this.sideLen;
+    const yLimit = this.y + this.sideLen;
+    const xAxis = (px >= this.x) && (px <= xLimit);
+    const yAxis = (py >= this.y) && (py <= yLimit);
+
+    if (xAxis && yAxis) {
+      this.onClick();
+    }
+  }
+
+  onClick () {
+    this.filled = true;
+  }
 }
 
 class Raster {
@@ -111,5 +130,13 @@ class Raster {
 
   putPixel (i, j) {
     this.matrix[j][i].filled = true;
+  }
+
+  propagateClick (px, py) {
+    this.matrix.forEach(line => {
+      line.forEach(pixel => {
+        pixel.checkClicked(px, py);
+      })
+    })
   }
 }

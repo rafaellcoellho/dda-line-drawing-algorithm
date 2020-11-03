@@ -6,7 +6,7 @@ const SIDE_LEN = 70;
 let cols, rows;
 let raster;
 
-function generate_fragment (x, y) {
+function generateFragment (x, y) {
   const xm = floor(x);
   const ym = floor(y);
   raster.putPixel(xm, ym);
@@ -20,21 +20,21 @@ function dda (x1, y1, x2, y2) {
   const m = deltaY / deltaX;
   const b = y - (m * x);
 
-  generate_fragment(x, y);
+  generateFragment(x, y);
 
   if (abs(deltaX) > abs(deltaY)) {
     while (x < x2) {
       x = x + 1;
       y = (m * x) + b;
   
-      generate_fragment(x, y);
+      generateFragment(x, y);
     }
   } else {
     while (y < y2) {
       y = y + 1;
       x = (y - b) / m;
       
-      generate_fragment(x, y);
+      generateFragment(x, y);
     }
   }
 }

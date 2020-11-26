@@ -8,6 +8,16 @@ const SIDE_LEN = 5;
 let cols, rows;
 let raster;
 let main;
+let resetButton;
+
+/* Utilitários */
+
+function initRasterAndMain () {
+  cols = floor(WIDTH/SIDE_LEN);
+  rows =  floor(WIDTH/SIDE_LEN);
+  raster = new Raster(cols, rows, SIDE_LEN);
+  main = new Main();
+}
 
 /* Algoritmo DDA */
 function generateFragment (x, y) {
@@ -51,12 +61,11 @@ function mousePressed () {
 function setup () {
   createCanvas(HEIGHT, WIDTH);
 
-  cols = floor(WIDTH/SIDE_LEN);
-  rows =  floor(WIDTH/SIDE_LEN);
+  initRasterAndMain();
 
-  raster = new Raster(cols, rows, SIDE_LEN);
-
-  main = new Main();
+  resetButton = createButton('reseta');
+  resetButton.position(WIDTH + 50, 10);
+  resetButton.mousePressed(initRasterAndMain);
 }
 
 function draw() {
@@ -162,11 +171,6 @@ class Main {
   }
 
   runAlgorithm () {
-    console.log('start:');
-    console.log(this.start);
-    console.log('end:');
-    console.log(this.end);
-
     dda(this.start.x, this.start.y, this.end.x, this.end.y);
     dda(this.end.x, this.end.y, this.start.x, this.start.y);
     this.alreadyRunAlgorithm = true;

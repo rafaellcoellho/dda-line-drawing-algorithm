@@ -1,12 +1,13 @@
 /* Constantes */
-const HEIGHT = 700;
-const WIDTH = 700;
+const HEIGHT = 500;
+const WIDTH = 500;
 
-const SIDE_LEN = 70;
+const SIDE_LEN = 5;
 
 /* Variáveis Globais */
 let cols, rows;
 let raster;
+let main;
 
 /* Algoritmo DDA */
 function generateFragment (x, y) {
@@ -54,6 +55,8 @@ function setup () {
   rows =  floor(WIDTH/SIDE_LEN);
 
   raster = new Raster(cols, rows, SIDE_LEN);
+
+  main = new Main();
 }
 
 function draw() {
@@ -98,7 +101,9 @@ class Pixel {
   }
 
   onClick () {
+    if (main.alreadyRunAlgorithm) return;
     this.filled = true;
+    main.fillPoints(this.i, this.j);
   }
 }
 
@@ -138,5 +143,32 @@ class Raster {
         pixel.checkClicked(px, py);
       })
     })
+  }
+}
+
+class Main {
+  constructor () {
+    this.start = undefined;
+    this.end = undefined;
+    this.alreadyRunAlgorithm = false;
+  }
+
+  fillPoints (i, j) {
+    if (!this.start) this.start = { x: j, y: i };
+    else if (!this.end) {
+      this.end = { x: j, y: i };
+      this.runAlgorithm();
+    }
+  }
+
+  runAlgorithm () {
+    console.log('start:');
+    console.log(this.start);
+    console.log('end:');
+    console.log(this.end);
+
+    dda(this.start.x, this.start.y, this.end.x, this.end.y);
+    dda(this.end.x, this.end.y, this.start.x, this.start.y);
+    this.alreadyRunAlgorithm = true;
   }
 }

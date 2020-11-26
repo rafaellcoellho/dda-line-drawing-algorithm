@@ -2,21 +2,43 @@
 const HEIGHT = 500;
 const WIDTH = 500;
 
-const SIDE_LEN = 5;
+const INITIAL_SIDE_LEN = 35;
 
 /* Variáveis Globais */
 let cols, rows;
 let raster;
 let main;
-let resetButton;
+
+let sideSlider;
+let sliderLastValue = 7;
+
+let resolutionDisplay;
 
 /* Utilitários */
 
-function initRasterAndMain () {
-  cols = floor(WIDTH/SIDE_LEN);
-  rows =  floor(WIDTH/SIDE_LEN);
-  raster = new Raster(cols, rows, SIDE_LEN);
+function initRasterAndMain (sideLen) {
+  cols = floor(WIDTH/sideLen);
+  rows =  floor(HEIGHT/sideLen);
+  raster = new Raster(cols, rows, sideLen);
   main = new Main();
+}
+
+function checkSlider () {
+  const actualValue = sideSlider.value();
+  if (sliderLastValue !== actualValue) {
+    const newSideLen = actualValue * 5;
+    initRasterAndMain(newSideLen);
+
+    sliderLastValue = actualValue;
+    updateResolutionDisplay();
+  }
+}
+
+function updateResolutionDisplay () {
+  const rows = floor(WIDTH/(sliderLastValue*5));
+  const height = floor(HEIGHT/(sliderLastValue*5));
+
+  resolutionDisplay.html(`resolução: ${rows} / ${height}`);
 }
 
 /* Algoritmo DDA */
@@ -61,16 +83,26 @@ function mousePressed () {
 function setup () {
   createCanvas(HEIGHT, WIDTH);
 
-  initRasterAndMain();
+  initRasterAndMain(INITIAL_SIDE_LEN);
 
-  resetButton = createButton('reseta');
-  resetButton.position(WIDTH + 50, 10);
-  resetButton.mousePressed(initRasterAndMain);
+  sideSlider = createSlider(2, 10, sliderLastValue);
+  sideSlider.position(WIDTH + 50, 10);
+
+  resolutionDisplay = createSpan(`resolução: 0 / 0`);
+  resolutionDisplay.position(sideSlider.x + sideSlider.width + 10, sideSlider.y);
+  updateResolutionDisplay();
+
+  const resetButton = createButton('reseta');
+  resetButton.position(WIDTH + 50, sideSlider.y + sideSlider.height + 10);
+  resetButton.mousePressed(() => {
+    initRasterAndMain(sliderLastValue * 5);
+  });
 }
 
 function draw() {
   background(255);
 
+  checkSlider();
   raster.show();
 }
 

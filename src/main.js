@@ -108,14 +108,14 @@ function setup () {
     }, 100);
   });
 
-  const secondResolutionButton = createButton('resolução 16/16');
+  const secondResolutionButton = createButton('resolução 33/33');
   secondResolutionButton.position(WIDTH + 50, firstResolutionButton.y + firstResolutionButton.height + 10);
   secondResolutionButton.mousePressed(() => {
     initRasterAndMain(sliderLastValue * 5);
-    sideSlider.value(6);
+    sideSlider.value(3);
     setTimeout(() => {
-      raster.propagateClick(15, 43);
-      raster.propagateClick(470, 436);
+      raster.propagateClick(7, 19);
+      raster.propagateClick(488, 472);
     }, 100);
   });
 

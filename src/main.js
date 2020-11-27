@@ -14,32 +14,6 @@ let sliderLastValue = 7;
 
 let resolutionDisplay;
 
-/* Utilitários */
-function initRasterAndMain (sideLen) {
-  cols = floor(WIDTH/sideLen);
-  rows =  floor(HEIGHT/sideLen);
-  raster = new Raster(cols, rows, sideLen);
-  main = new Main();
-}
-
-function checkSlider () {
-  const actualValue = sideSlider.value();
-  if (sliderLastValue !== actualValue) {
-    const newSideLen = actualValue * 5;
-    initRasterAndMain(newSideLen);
-
-    sliderLastValue = actualValue;
-    updateResolutionDisplay();
-  }
-}
-
-function updateResolutionDisplay () {
-  const rows = floor(WIDTH/(sliderLastValue*5));
-  const height = floor(HEIGHT/(sliderLastValue*5));
-
-  resolutionDisplay.html(`resolução: ${rows} / ${height}`);
-}
-
 /* Algoritmo DDA */
 function generateFragment (x, y) {
   const xm = floor(x);
@@ -72,6 +46,32 @@ function dda (x1, y1, x2, y2) {
       generateFragment(x, y);
     }
   }
+}
+
+/* Utilitários */
+function initRasterAndMain (sideLen) {
+  cols = floor(WIDTH/sideLen);
+  rows =  floor(HEIGHT/sideLen);
+  raster = new Raster(cols, rows, sideLen);
+  main = new Main();
+}
+
+function checkSlider () {
+  const actualValue = sideSlider.value();
+  if (sliderLastValue !== actualValue) {
+    const newSideLen = actualValue * 5;
+    initRasterAndMain(newSideLen);
+
+    sliderLastValue = actualValue;
+    updateResolutionDisplay();
+  }
+}
+
+function updateResolutionDisplay () {
+  const rows = floor(WIDTH/(sliderLastValue*5));
+  const height = floor(HEIGHT/(sliderLastValue*5));
+
+  resolutionDisplay.html(`resolução: ${rows} / ${height}`);
 }
 
 /* P5 */

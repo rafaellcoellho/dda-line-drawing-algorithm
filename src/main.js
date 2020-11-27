@@ -15,7 +15,6 @@ let sliderLastValue = 7;
 let resolutionDisplay;
 
 /* Utilitários */
-
 function initRasterAndMain (sideLen) {
   cols = floor(WIDTH/sideLen);
   rows =  floor(HEIGHT/sideLen);
@@ -96,6 +95,61 @@ function setup () {
   resetButton.position(WIDTH + 50, sideSlider.y + sideSlider.height + 10);
   resetButton.mousePressed(() => {
     initRasterAndMain(sliderLastValue * 5);
+  });
+
+  const firstResolutionButton = createButton('resolução 10/10');
+  firstResolutionButton.position(WIDTH + 50, resetButton.y + resetButton.height + 10);
+  firstResolutionButton.mousePressed(() => {
+    initRasterAndMain(sliderLastValue * 5);
+    sideSlider.value(10);
+    setTimeout(() => {
+      raster.propagateClick(29, 61);
+      raster.propagateClick(474, 419);
+    }, 100);
+  });
+
+  const secondResolutionButton = createButton('resolução 16/16');
+  secondResolutionButton.position(WIDTH + 50, firstResolutionButton.y + firstResolutionButton.height + 10);
+  secondResolutionButton.mousePressed(() => {
+    initRasterAndMain(sliderLastValue * 5);
+    sideSlider.value(6);
+    setTimeout(() => {
+      raster.propagateClick(15, 43);
+      raster.propagateClick(470, 436);
+    }, 100);
+  });
+
+  const thirdResolutionButton = createButton('resolução 50/50');
+  thirdResolutionButton.position(WIDTH + 50, secondResolutionButton.y + secondResolutionButton.height + 10);
+  thirdResolutionButton.mousePressed(() => {
+    initRasterAndMain(sliderLastValue * 5);
+    sideSlider.value(2);
+    setTimeout(() => {
+      raster.propagateClick(7, 14);
+      raster.propagateClick(496, 484);
+    }, 100);
+  });
+
+  const verticalLineButton = createButton('linha vertical');
+  verticalLineButton.position(WIDTH + 50, thirdResolutionButton.y + thirdResolutionButton.height + 10);
+  verticalLineButton.mousePressed(() => {
+    initRasterAndMain(sliderLastValue * 5);
+    sideSlider.value(2);
+    setTimeout(() => {
+      raster.propagateClick(2, 2);
+      raster.propagateClick(136, 496);
+    }, 100);
+  });
+
+  const horizontalLineButton = createButton('linha horizontal');
+  horizontalLineButton.position(WIDTH + 50, verticalLineButton.y + verticalLineButton.height + 10);
+  horizontalLineButton.mousePressed(() => {
+    initRasterAndMain(sliderLastValue * 5);
+    sideSlider.value(2);
+    setTimeout(() => {
+      raster.propagateClick(8, 2);
+      raster.propagateClick(494, 77);
+    }, 100);
   });
 }
 
@@ -179,6 +233,7 @@ class Raster {
   }
 
   propagateClick (px, py) {
+    console.log(px, py);
     this.matrix.forEach(line => {
       line.forEach(pixel => {
         pixel.checkClicked(px, py);

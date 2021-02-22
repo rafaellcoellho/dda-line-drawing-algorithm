@@ -8,5 +8,5 @@ Para abrir a visualização, basta abrir o arquivo index.html no browser de pref
 
 ### WIP
 
-- [ ] tratar caso em que `x1 === x2` ou `y1 === x2`
+- [ ] tratar caso em que `x1 === x2` ou `y1 === y2`
 - [ ] resoluções maiores
